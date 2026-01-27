@@ -13,13 +13,45 @@ function HomePage() {
         <div className="particle"></div>
         
         <div className="content-wrapper">
+          {/* Hero Image Section */}
+          <div className="hero-image-container">
+            <div className="hero-image">
+              <div className="hero-icon">🌱</div>
+              <div className="hero-rings">
+                <div className="ring ring-1"></div>
+                <div className="ring ring-2"></div>
+                <div className="ring ring-3"></div>
+              </div>
+            </div>
+          </div>
+          <h2 className="subtitle">Digital Investment Platform</h2>
           <div className="countdown-section">
             <p className="countdown-title">Launch Countdown Timer</p>
-            <div className="timer-display" id="countdown-timer">30:00:00:00</div>
+            <div className="timer-display" id="countdown-timer">
+              <div className="time-unit">
+                <span id="days">30</span>
+                <span className="unit-label">DAYS</span>
+              </div>
+              <span className="time-separator">:</span>
+              <div className="time-unit">
+                <span id="hours">00</span>
+                <span className="unit-label">HOURS</span>
+              </div>
+              <span className="time-separator">:</span>
+              <div className="time-unit">
+                <span id="minutes">00</span>
+                <span className="unit-label">MINS</span>
+              </div>
+              <span className="time-separator">:</span>
+              <div className="time-unit">
+                <span id="seconds">00</span>
+                <span className="unit-label">SECS</span>
+              </div>
+            </div>
           </div>
           
-          <h1 className="main-title">ArbiGrow</h1>
-          <h2 className="subtitle">Digital Investment Platform</h2>
+          <h1 className="main-title"></h1>
+          
           
           <p className="description">
             Coming Soon<br />
@@ -79,13 +111,19 @@ function HomePage() {
           var formattedMinutes = minutes.toString().padStart(2, '0');
           var formattedSeconds = seconds.toString().padStart(2, '0');
           
-          // Output the result in the element with id="countdown-timer"
-          document.getElementById("countdown-timer").innerHTML = formattedDays + ":" + formattedHours + ":" + formattedMinutes + ":" + formattedSeconds;
+          // Update each time unit individually
+          document.getElementById("days").textContent = formattedDays;
+          document.getElementById("hours").textContent = formattedHours;
+          document.getElementById("minutes").textContent = formattedMinutes;
+          document.getElementById("seconds").textContent = formattedSeconds;
           
           // If the count down is over, write some text 
           if (distance < 0) {
             clearInterval(x);
-            document.getElementById("countdown-timer").innerHTML = "00:00:00:00";
+            document.getElementById("days").textContent = "00";
+            document.getElementById("hours").textContent = "00";
+            document.getElementById("minutes").textContent = "00";
+            document.getElementById("seconds").textContent = "00";
           }
         }, 1000);
       `}} />
