@@ -427,8 +427,8 @@ const AIChatAssistant = () => {
                   <div className="message-content-wrapper">
                     <div className="message-content">
                       <p>
-                        {message.text.split(/(\bhttps?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi).map((part, index) => {
-                          if (part.match(/\bhttps?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/gi)) {
+                        {message.text.split(/(\bhttps?:\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi).map((part, index) => {
+                          if (part.match(/\bhttps?:\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]/gi)) {
                             return (
                               <a 
                                 key={index} 
