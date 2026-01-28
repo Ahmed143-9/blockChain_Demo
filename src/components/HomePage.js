@@ -1,7 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 
 function HomePage() {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 30,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    // Set the date we're counting down to (30 days from now)
+    const countDownDate = new Date();
+    countDownDate.setDate(countDownDate.getDate() + 30);
+    
+    const timer = setInterval(() => {
+      // Get today's date and time
+      const now = new Date().getTime();
+      
+      // Find the distance between now and the count down date
+      const distance = countDownDate - now;
+      
+      // If the count down is over, clear the interval
+      if (distance < 0) {
+        clearInterval(timer);
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+      
+      // Time calculations for days, hours, minutes and seconds
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      setTimeLeft({ days, hours, minutes, seconds });
+    }, 1000);
+    
+    // Cleanup interval on component unmount
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="homepage">
       <header className="homepage-header">
@@ -27,31 +66,30 @@ function HomePage() {
           <h2 className="subtitle">Digital Investment Platform</h2>
           <div className="countdown-section">
             <p className="countdown-title">Launch Countdown Timer</p>
-            <div className="timer-display" id="countdown-timer">
+            <div className="timer-display">
               <div className="time-unit">
-                <span id="days">30</span>
+                <span>{String(timeLeft.days).padStart(2, '0')}</span>
                 <span className="unit-label">DAYS</span>
               </div>
               <span className="time-separator">:</span>
               <div className="time-unit">
-                <span id="hours">00</span>
+                <span>{String(timeLeft.hours).padStart(2, '0')}</span>
                 <span className="unit-label">HOURS</span>
               </div>
               <span className="time-separator">:</span>
               <div className="time-unit">
-                <span id="minutes">00</span>
+                <span>{String(timeLeft.minutes).padStart(2, '0')}</span>
                 <span className="unit-label">MINS</span>
               </div>
               <span className="time-separator">:</span>
               <div className="time-unit">
-                <span id="seconds">00</span>
+                <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
                 <span className="unit-label">SECS</span>
               </div>
             </div>
           </div>
           
-          <h1 className="main-title"></h1>
-          
+          <h1 className="main-title">ArbiGrow</h1>
           
           <p className="description">
             Coming Soon<br />
@@ -84,49 +122,6 @@ function HomePage() {
           </div>
         </div>
       </header>
-      
-      <script dangerouslySetInnerHTML={{__html: `
-        // Set the date we're counting down to (30 days from now)
-        var countDownDate = new Date();
-        countDownDate.setDate(countDownDate.getDate() + 30);
-        
-        // Update the count down every 1 second
-        var x = setInterval(function() {
-          
-          // Get today's date and time
-          var now = new Date().getTime();
-          
-          // Find the distance between now and the count down date
-          var distance = countDownDate - now;
-          
-          // Time calculations for days, hours, minutes and seconds
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          
-          // Format the display with leading zeros
-          var formattedDays = days.toString().padStart(2, '0');
-          var formattedHours = hours.toString().padStart(2, '0');
-          var formattedMinutes = minutes.toString().padStart(2, '0');
-          var formattedSeconds = seconds.toString().padStart(2, '0');
-          
-          // Update each time unit individually
-          document.getElementById("days").textContent = formattedDays;
-          document.getElementById("hours").textContent = formattedHours;
-          document.getElementById("minutes").textContent = formattedMinutes;
-          document.getElementById("seconds").textContent = formattedSeconds;
-          
-          // If the count down is over, write some text 
-          if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("days").textContent = "00";
-            document.getElementById("hours").textContent = "00";
-            document.getElementById("minutes").textContent = "00";
-            document.getElementById("seconds").textContent = "00";
-          }
-        }, 1000);
-      `}} />
     </div>
   );
 }

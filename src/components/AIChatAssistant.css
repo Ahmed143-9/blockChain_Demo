@@ -474,6 +474,24 @@
   font-size: 12px;
 }
 
+/* Link Styles in Messages */
+.message-link {
+  color: #667eea;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.message-link:hover {
+  color: #764ba2;
+  text-decoration: underline;
+  transform: scale(1.02);
+}
+
+.message-link:visited {
+  color: #764ba2;
+}
+
 /* Typing Indicator */
 .typing-indicator {
   display: flex;

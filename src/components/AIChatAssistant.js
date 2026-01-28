@@ -8,7 +8,7 @@ const AIChatAssistant = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Welcome! I'm here to help you understand ArbiGrow and answer your questions about our upcoming platform. How can I assist you today?",
+      text: "Welcome! I'm here to help you understand ArbiGrow.",
       sender: 'ai',
       timestamp: new Date()
     }
@@ -120,7 +120,10 @@ const AIChatAssistant = () => {
       isSafe: "We prioritize security and transparency. The platform undergoes comprehensive testing and security audits before launch.",
       
       // Default response
-      default: "I'm here to help you understand ArbiGrow and our upcoming platform. Feel free to ask about what you see on this page - the countdown timer, our platform features, or launch details. How can I help you today?"
+      default: "I'm here to help you understand ArbiGrow and our upcoming platform. Feel free to ask about what you see on this page - the countdown timer, our platform features, or launch details. How can I help you today?",
+      
+      // Fallback response for unknown queries
+      fallback: "আপনি যেটা জানতে চাচ্ছেন, সেটি আমাদের ডাটাবেসে এই মুহূর্তে নেই।\nঅনুগ্রহ করে নিচে দেওয়া ফর্মটি পূরণ করে আপনার ইমেইল ও সমস্যাটি জানান।\nআমাদের অ্যাডমিন টিম খুব শীঘ্রই আপনার সাথে যোগাযোগ করবে।\n\nThe information you are looking for is not available in our database at the moment.\nPlease fill out the form below with your email and details of your issue.\nOur admin team will contact you shortly.\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9"
     },
     bangla: {
       // Core Introduction
@@ -148,7 +151,10 @@ const AIChatAssistant = () => {
       isSafe: "আমরা নিরাপত্তা এবং স্বচ্ছতাকে অগ্রাধিকার দিই। প্ল্যাটফর্মটি লঞ্চের আগে বিস্তারিত পরীক্ষা এবং নিরাপত্তা অডিট করে।",
       
       // Default response
-      default: "আমি এখানে ArbiGrow এবং আমাদের আসন্ন প্ল্যাটফর্ম সম্পর্কে আপনাকে সাহায্য করার জন্য। এই পৃষ্ঠায় আপনি যা দেখছেন সে সম্পর্কে জিজ্ঞাসা করুন - কাউন্টডাউন টাইমার, আমাদের প্ল্যাটফর্ম ফিচার, বা লঞ্চ বিবরণ। আজকে আমি কীভাবে আপনাকে সাহায্য করতে পারি?"
+      default: "আমি এখানে ArbiGrow এবং আমাদের আসন্ন প্ল্যাটফর্ম সম্পর্কে আপনাকে সাহায্য করার জন্য। এই পৃষ্ঠায় আপনি যা দেখছেন সে সম্পর্কে জিজ্ঞাসা করুন - কাউন্টডাউন টাইমার, আমাদের প্ল্যাটফর্ম ফিচার, বা লঞ্চ বিবরণ। আজকে আমি কীভাবে আপনাকে সাহায্য করতে পারি?",
+      
+      // Fallback response for unknown queries
+      fallback: "আপনি যেটা জানতে চাচ্ছেন, সেটি আমাদের ডাটাবেসে এই মুহূর্তে নেই।\nঅনুগ্রহ করে নিচে দেওয়া ফর্মটি পূরণ করে আপনার ইমেইল ও সমস্যাটি জানান।\nআমাদের অ্যাডমিন টিম খুব শীঘ্রই আপনার সাথে যোগাযোগ করবে।\n\nThe information you are looking for is not available in our database at the moment.\nPlease fill out the form below with your email and details of your issue.\nOur admin team will contact you shortly.\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9"
     }
   };
 
@@ -177,67 +183,74 @@ const AIChatAssistant = () => {
       
       const timeRemaining = formatTimeRemaining(language);
       
+      let response;
       if (language === 'bangla') {
-        return `আমাদের প্ল্যাটফর্ম ${timeRemaining} লঞ্চ হবে। হোমপেজের কাউন্টডাউন টাইমার সঠিক সময় দেখাচ্ছে যা প্রতি সেকেন্ডে আপডেট হয় - দিন, ঘন্টা, মিনিট এবং সেকেন্ড। এটি একটি লাইভ কাউন্টডাউন যা আমাদের অফিসিয়াল লঞ্চ পর্যন্ত সময় দেখায়।`;
+        response = `আমাদের প্ল্যাটফর্ম ${timeRemaining} লঞ্চ হবে। হোমপেজের কাউন্টডাউন টাইমার সঠিক সময় দেখাচ্ছে যা প্রতি সেকেন্ডে আপডেট হয় - দিন, ঘন্টা, মিনিট এবং সেকেন্ড। এটি একটি লাইভ কাউন্টডাউন যা আমাদের অফিসিয়াল লঞ্চ পর্যন্ত সময় দেখায়।`;
       } else {
-        return `Our platform will launch ${timeRemaining}. The countdown timer on the homepage shows the exact time remaining, updating every second - Days, Hours, Minutes, and Seconds. This is a live countdown showing time until our official launch.`;
+        response = `Our platform will launch ${timeRemaining}. The countdown timer on the homepage shows the exact time remaining, updating every second - Days, Hours, Minutes, and Seconds. This is a live countdown showing time until our official launch.`;
       }
+      
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Company related
     if (lowerMessage.includes('company') || lowerMessage.includes('about') || lowerMessage.includes('কোম্পানি') || lowerMessage.includes('সম্পর্কে')) {
-      return kb.company;
+      let response = kb.company || kb.whatIsArbiGrow;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Profit related
     if (lowerMessage.includes('profit') || lowerMessage.includes('earn') || lowerMessage.includes('return') || 
         lowerMessage.includes('লাভ') || lowerMessage.includes('আয়') || lowerMessage.includes('রিটার্ন') || 
         lowerMessage.includes('earnings') || lowerMessage.includes('roi')) {
-      return kb.profit;
+      let response = kb.profit;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Registration related
     if (lowerMessage.includes('register') || lowerMessage.includes('signup') || lowerMessage.includes('sign up') || 
         lowerMessage.includes('রেজিস্ট্রেশন') || lowerMessage.includes('সাইন আপ')) {
-      return kb.registration;
+      let response = kb.registration;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Login related
     if (lowerMessage.includes('login') || lowerMessage.includes('log in') || lowerMessage.includes('লগইন') || lowerMessage.includes('লগ ইন')) {
-      return kb.login;
+      let response = kb.login;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Deposit related
     if (lowerMessage.includes('deposit') || lowerMessage.includes('invest') || lowerMessage.includes('payment') || 
         lowerMessage.includes('জমা') || lowerMessage.includes('বিনিয়োগ')) {
-      return kb.deposit;
+      let response = kb.deposit;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Withdrawal related
     if (lowerMessage.includes('withdraw') || lowerMessage.includes('withdrawal') || lowerMessage.includes('উত্তোলন')) {
-      return kb.withdrawal;
-    }
-
-    // Profit activation related
-    if (lowerMessage.includes('activate') || lowerMessage.includes('activation') || lowerMessage.includes('সক্রিয়')) {
-      return kb.profitActivation;
+      let response = kb.withdrawal;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // What is ArbiGrow
     if (lowerMessage.includes('what is') || lowerMessage.includes('what\'s') || lowerMessage.includes('কি') || 
         lowerMessage.includes('কী') || lowerMessage.includes('আরবিগ্রো কি')) {
-      return kb.whatIsArbiGrow;
+      let response = kb.whatIsArbiGrow;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Platform status
     if (lowerMessage.includes('status') || lowerMessage.includes('অবস্থা')) {
-      return kb.platformStatus;
+      let response = kb.platformStatus;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Why minimal design
     if (lowerMessage.includes('why') && (lowerMessage.includes('simple') || lowerMessage.includes('minimal') || 
         lowerMessage.includes('কেন') || lowerMessage.includes('সাদামাটা'))) {
-      return kb.whyMinimal;
+      let response = kb.whyMinimal;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Is it real/safe
@@ -245,12 +258,14 @@ const AIChatAssistant = () => {
          lowerMessage.includes('বাস্তব') || lowerMessage.includes('প্রকৃত')) ||
         (lowerMessage.includes('safe') || lowerMessage.includes('secure') || lowerMessage.includes('risk') || 
          lowerMessage.includes('নিরাপদ') || lowerMessage.includes('সুরক্ষিত'))) {
-      return kb.isReal;
+      let response = kb.isReal;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Countdown
     if (lowerMessage.includes('countdown') || lowerMessage.includes('timer') || lowerMessage.includes('কাউন্টডাউন') || lowerMessage.includes('টাইমার')) {
-      return kb.countdown;
+      let response = kb.countdown;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Mobile experience
@@ -258,19 +273,21 @@ const AIChatAssistant = () => {
         lowerMessage.includes('thumb') || lowerMessage.includes('comfortable') || lowerMessage.includes('layout') ||
         lowerMessage.includes('মোবাইল') || lowerMessage.includes('টাইপিং') || lowerMessage.includes('আঙ্গুল') ||
         lowerMessage.includes('আরাম') || lowerMessage.includes('লেআউট')) {
-      return kb.mobileChat;
+      let response = kb.mobileChat;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Guaranteed profit
     if (lowerMessage.includes('guarantee') || lowerMessage.includes('assured') || lowerMessage.includes('fixed') || 
         lowerMessage.includes('নিশ্চিত') || lowerMessage.includes('আশ্বাস')) {
-      return kb.guaranteedProfit;
+      let response = kb.guaranteedProfit;
+      return response + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9';
     }
 
     // Default response
     const defaultResponses = {
-      english: kb.default,
-      bangla: kb.default
+      english: kb.default + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9',
+      bangla: kb.default + '\n\nPlease fill up the form for Admin response:\nhttps://forms.gle/GixpHHRyfuk8kPEv9'
     };
     
     return defaultResponses[language];
@@ -315,38 +332,6 @@ const AIChatAssistant = () => {
       e.preventDefault();
       handleSendMessage();
     }
-  };
-
-  const handleQuickQuestion = (question) => {
-    setInputValue(question);
-    // Hide quick questions after first interaction
-    setShowQuickQuestions(false);
-    setHasInteracted(true);
-    
-    // Automatically send the question
-    setTimeout(() => {
-      const userMessage = {
-        id: messages.length + 1,
-        text: question,
-        sender: 'user',
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, userMessage]);
-      setIsTyping(true);
-
-      setTimeout(() => {
-        const aiResponse = {
-          id: messages.length + 2,
-          text: generateResponse(question),
-          sender: 'ai',
-          timestamp: new Date()
-        };
-        
-        setMessages(prev => [...prev, aiResponse]);
-        setIsTyping(false);
-      }, 1000 + Math.random() * 1000);
-    }, 100);
   };
 
   return (
@@ -441,7 +426,24 @@ const AIChatAssistant = () => {
                   )}
                   <div className="message-content-wrapper">
                     <div className="message-content">
-                      <p>{message.text}</p>
+                      <p>
+                        {message.text.split(/(\bhttps?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi).map((part, index) => {
+                          if (part.match(/\bhttps?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/gi)) {
+                            return (
+                              <a 
+                                key={index} 
+                                href={part} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="message-link"
+                              >
+                                {part}
+                              </a>
+                            );
+                          }
+                          return part;
+                        })}
+                      </p>
                       <span className="timestamp">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
@@ -472,37 +474,6 @@ const AIChatAssistant = () => {
                 </div>
               )}
               <div ref={messagesEndRef} />
-            </div>
-
-            {/* Quick Questions */}
-            <div className="quick-questions">
-              <p className="suggestions-label">Quick Questions:</p>
-              <div className="suggestions-grid">
-                <button 
-                  className="suggestion-chip"
-                  onClick={() => handleQuickQuestion("When will ArbiGrow launch?")}
-                >
-                  🚀 Launch Date?
-                </button>
-                <button 
-                  className="suggestion-chip"
-                  onClick={() => handleQuickQuestion("What are the profit returns?")}
-                >
-                  💰 Profit Returns?
-                </button>
-                <button 
-                  className="suggestion-chip"
-                  onClick={() => handleQuickQuestion("Tell me about your company")}
-                >
-                  🏢 About Company
-                </button>
-                <button 
-                  className="suggestion-chip"
-                  onClick={() => handleQuickQuestion("Is ArbiGrow safe and secure?")}
-                >
-                  🛡️ Safety & Security
-                </button>
-              </div>
             </div>
 
             <div className="chat-input-area">
