@@ -2,24 +2,45 @@ import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 
 function HomePage() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 30,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
+  // Calculate the target date (30 days from the initial visit)
+  const getTargetDate = () => {
+    const savedTargetDate = localStorage.getItem('countdownTargetDate');
+    if (savedTargetDate) {
+      return new Date(savedTargetDate);
+    } else {
+      const newTargetDate = new Date();
+      newTargetDate.setDate(newTargetDate.getDate() + 30);
+      localStorage.setItem('countdownTargetDate', newTargetDate.toISOString());
+      return newTargetDate;
+    }
+  };
+
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const targetDate = getTargetDate();
+    const now = new Date().getTime();
+    const distance = targetDate.getTime() - now;
+
+    if (distance <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    return { days, hours, minutes, seconds };
   });
 
   useEffect(() => {
-    // Set the date we're counting down to (30 days from now)
-    const countDownDate = new Date();
-    countDownDate.setDate(countDownDate.getDate() + 30);
+    const targetDate = getTargetDate();
     
     const timer = setInterval(() => {
       // Get today's date and time
       const now = new Date().getTime();
       
       // Find the distance between now and the count down date
-      const distance = countDownDate - now;
+      const distance = targetDate.getTime() - now;
       
       // If the count down is over, clear the interval
       if (distance < 0) {
