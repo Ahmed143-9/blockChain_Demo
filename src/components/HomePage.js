@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
+import logoImg from '../image/logo.png';
 
 function HomePage() {
   // Calculate the target date (30 days from the initial visit)
@@ -65,6 +66,11 @@ function HomePage() {
   return (
     <div className="homepage">
       <header className="homepage-header">
+        {/* Logo at top left */}
+        {/* <div className="site-logo">
+          <img src={logoImg} alt="ArbiGrow Logo" />
+        </div> */}
+        
         {/* Floating particles */}
         <div className="particle"></div>
         <div className="particle"></div>
@@ -110,12 +116,21 @@ function HomePage() {
             </div>
           </div>
           
-          <h1 className="main-title">ArbiGrow</h1>
+          {/* <h1 className="main-title">ArbiGrow</h1> */}
           
           <p className="description">
             Coming Soon<br />
             Launch Preview
           </p>
+
+          {/* <p className="description">
+            Coming Soon<br />
+            Launch Preview
+          </p>
+          <p className="description">
+            Coming Soon<br />
+            Launch Preview
+          </p> */}
           
           <div className="features-grid">
             <div className="feature-card">
