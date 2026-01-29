@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
-import logoImg from '../image/logo.png';
+// import logoImg from '../image/logo.png';  // Temporarily commented out since not in use
 
 function HomePage() {
   // Calculate the target date (30 days from the initial visit)
